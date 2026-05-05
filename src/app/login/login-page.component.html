@@ -1,0 +1,75 @@
+<main class="login-page" aria-labelledby="login-title">
+  <article
+    class="login-card"
+    (pointermove)="onCardPointerMove($event)"
+    (pointerleave)="resetCard($event)"
+  >
+    <section class="brand-panel" aria-label="Buena Rosa 9 portal">
+      <div class="logo-frame">
+        <img class="logo" [src]="logoPath" alt="Buena Rosa 9 Homeowners Association logo" />
+      </div>
+
+      <p class="eyebrow">Buena Rosa 9</p>
+      <h1 id="login-title">{{ isPasswordStep ? 'Welcome back' : 'Sign in' }}</h1>
+      <p class="description">
+        {{ isPasswordStep ? 'Enter your password to continue.' : 'Access the homeowners portal with your block and lot account.' }}
+      </p>
+
+      @if (isPasswordStep) {
+        <button class="account-chip" type="button" (click)="goBackToAccount()">
+          {{ selectedAccountLabel }}
+        </button>
+      }
+    </section>
+
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+      @if (!isPasswordStep) {
+        <label class="field">
+          <span>Block and Lot Account ID</span>
+          <input
+            type="text"
+            formControlName="accountId"
+            placeholder="e.g. Block 4 Lot 12"
+            autocomplete="username"
+            [attr.aria-invalid]="accountIdInvalid"
+          />
+        </label>
+
+        @if (accountIdInvalid) {
+          <p class="field-message">Block and lot account ID is required.</p>
+        }
+      } @else {
+        <label class="field">
+          <span>Password</span>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            [attr.aria-invalid]="passwordInvalid"
+          />
+        </label>
+
+        @if (passwordInvalid) {
+          <p class="field-message">Password is required.</p>
+        }
+      }
+
+      <p class="helper-text">
+        {{ isPasswordStep ? 'Use the password assigned to your selected account.' : 'Use an authorized homeowner, renter, officer, or guard account to continue.' }}
+      </p>
+
+      <div class="form-actions">
+        @if (isPasswordStep) {
+          <button class="button button-secondary" type="button" (click)="goBackToAccount()">Back</button>
+        } @else {
+          <button class="button button-secondary" type="button" (click)="goToLanding()">Back</button>
+        }
+
+        <button class="button button-primary" type="submit">
+          {{ isPasswordStep ? 'Sign in' : 'Next' }}
+        </button>
+      </div>
+    </form>
+  </article>
+</main>

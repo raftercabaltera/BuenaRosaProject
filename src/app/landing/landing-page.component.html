@@ -1,0 +1,23 @@
+<main class="landing-page" aria-labelledby="landing-title">
+  <article
+    class="landing-card"
+    (pointermove)="onCardPointerMove($event)"
+    (pointerleave)="resetCard($event)"
+  >
+    <div class="logo-frame">
+      <img class="logo" [src]="logoPath" alt="Buena Rosa 9 Homeowners Association logo" />
+    </div>
+
+    <p class="eyebrow">Buena Rosa 9 Homeowners Association</p>
+    <h1 id="landing-title">Modern community operations in one portal</h1>
+    <p class="description">
+      Access resident services, association updates, and day-to-day workflows from a clean
+      starting point built for Buena Rosa 9.
+    </p>
+
+    <div class="actions">
+      <a class="button button-primary" routerLink="/login">Open Portal</a>
+      <button class="button button-secondary" type="button">Learn More</button>
+    </div>
+  </article>
+</main>
