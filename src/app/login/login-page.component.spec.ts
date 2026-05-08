@@ -49,7 +49,7 @@ describe('LoginPageComponent', () => {
   it('should move to the password step after entering an account ID', () => {
     const component = fixture.componentInstance;
 
-    component['loginForm'].controls.accountId.setValue('Block 4 Lot 12');
+    component['loginForm'].controls.accountId.setValue('admin001');
     component['goToPasswordStep']();
     fixture.detectChanges();
 
@@ -58,5 +58,15 @@ describe('LoginPageComponent', () => {
     expect(compiled.querySelector('h1')?.textContent).toContain('Welcome back');
     expect(compiled.querySelector('input')?.getAttribute('formcontrolname')).toBe('password');
     expect(compiled.querySelector('button[type="submit"]')?.textContent).toContain('Sign in');
+  });
+
+  it('should show validation when the account ID is not a mock account', () => {
+    const component = fixture.componentInstance;
+
+    component['loginForm'].controls.accountId.setValue('unknown001');
+    component['goToPasswordStep']();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('Account ID does not match any mock account.');
   });
 });

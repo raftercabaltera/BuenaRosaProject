@@ -23,7 +23,7 @@ describe('LandingPageComponent', () => {
   it('should render the landing content', () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent).toContain('Modern community operations');
+    expect(compiled.querySelector('h1')?.textContent).toContain('A simpler way to stay connected');
     expect(compiled.querySelector('a')?.textContent).toContain('Open Portal');
   });
 });

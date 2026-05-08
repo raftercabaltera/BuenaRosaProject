@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 type LoginStep = 'account' | 'password';
 
@@ -15,9 +16,11 @@ type LoginStep = 'account' | 'password';
 export class LoginPageComponent {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   protected readonly logoPath = '/Images/buenarosa9-nobg.png';
   protected readonly currentStep = signal<LoginStep>('account');
+  protected readonly accountLookupError = signal('');
   protected readonly loginForm = this.formBuilder.group({
     accountId: ['', Validators.required],
     password: ['', Validators.required],
@@ -30,7 +33,7 @@ export class LoginPageComponent {
   protected get accountIdInvalid(): boolean {
     const control = this.loginForm.controls.accountId;
 
-    return control.invalid && (control.dirty || control.touched);
+    return (control.invalid && (control.dirty || control.touched)) || Boolean(this.accountLookupError());
   }
 
   protected get passwordInvalid(): boolean {
@@ -49,15 +52,37 @@ export class LoginPageComponent {
       return;
     }
 
-    this.loginForm.controls.password.markAsTouched();
+    const password = this.loginForm.controls.password;
+
+    password.markAsTouched();
+
+    if (password.invalid) {
+      return;
+    }
+
+    const profile = this.authService.login(this.loginForm.controls.accountId.value);
+
+    if (!profile) {
+      this.currentStep.set('account');
+      this.accountLookupError.set('Account ID does not match any mock account.');
+      return;
+    }
+
+    void this.router.navigateByUrl('/dashboard');
   }
 
   protected goToPasswordStep(): void {
     const accountId = this.loginForm.controls.accountId;
 
+    this.accountLookupError.set('');
     accountId.markAsTouched();
 
     if (accountId.invalid) {
+      return;
+    }
+
+    if (!this.authService.findMockProfile(accountId.value)) {
+      this.accountLookupError.set('Account ID does not match any mock account.');
       return;
     }
 
@@ -66,6 +91,10 @@ export class LoginPageComponent {
 
   protected goBackToAccount(): void {
     this.currentStep.set('account');
+  }
+
+  protected clearAccountLookupError(): void {
+    this.accountLookupError.set('');
   }
 
   protected goToLanding(): void {

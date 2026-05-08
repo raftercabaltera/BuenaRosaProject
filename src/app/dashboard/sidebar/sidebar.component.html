@@ -1,0 +1,67 @@
+<aside class="sidebar" aria-label="Dashboard navigation">
+  <div class="sidebar__account">
+    <div class="sidebar__logo-wrap">
+      <img class="sidebar__logo" src="Images/buenarosa9.JPG" alt="Buena Rosa 9 Homeowners Association logo" />
+    </div>
+    <div>
+      <p class="sidebar__eyebrow">{{ currentUser.community }}</p>
+      <h2 class="sidebar__account-title">{{ currentUser.displayName }}</h2>
+      <p class="sidebar__account-role">{{ currentUser.role }}</p>
+    </div>
+  </div>
+
+  <nav class="sidebar__nav" aria-label="Officer menu">
+    @for (item of menuItems; track item.key) {
+      <section class="sidebar__section">
+        <button
+          class="sidebar__item sidebar__item--top"
+          [class.sidebar__item--active]="isActive(item.key)"
+          [class.sidebar__item--expanded]="item.children?.length && isExpanded(item.key)"
+          type="button"
+          [attr.aria-expanded]="item.children?.length ? isExpanded(item.key) : null"
+          (click)="onMenuClick(item)"
+        >
+          <span>{{ item.label }}</span>
+          @if (item.children?.length) {
+            <span class="sidebar__chevron" aria-hidden="true"></span>
+          }
+        </button>
+
+        @if (item.children?.length && isExpanded(item.key)) {
+          <div class="sidebar__submenu sidebar__submenu--level-one">
+            @for (child of item.children; track child.key) {
+              <button
+                class="sidebar__item sidebar__item--child"
+                [class.sidebar__item--active]="isActive(child.key)"
+                [class.sidebar__item--expanded]="child.children?.length && isExpanded(child.key)"
+                type="button"
+                [attr.aria-expanded]="child.children?.length ? isExpanded(child.key) : null"
+                (click)="onMenuClick(child)"
+              >
+                <span>{{ child.label }}</span>
+                @if (child.children?.length) {
+                  <span class="sidebar__chevron" aria-hidden="true"></span>
+                }
+              </button>
+
+              @if (child.children?.length && isExpanded(child.key)) {
+                <div class="sidebar__submenu sidebar__submenu--level-two">
+                  @for (grandchild of child.children; track grandchild.key) {
+                    <button
+                      class="sidebar__item sidebar__item--grandchild"
+                      [class.sidebar__item--active]="isActive(grandchild.key)"
+                      type="button"
+                      (click)="onMenuClick(grandchild)"
+                    >
+                      {{ grandchild.label }}
+                    </button>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+      </section>
+    }
+  </nav>
+</aside>

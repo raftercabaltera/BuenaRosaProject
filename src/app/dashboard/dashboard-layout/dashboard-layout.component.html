@@ -1,0 +1,19 @@
+<main class="dashboard-shell">
+  <app-sidebar (menuSelected)="onMenuSelected($event)" />
+
+  <section class="dashboard-shell__workspace" aria-label="Dashboard workspace">
+    @if (selectedMenu(); as menu) {
+      <section class="dashboard-shell__page" aria-labelledby="selected-page-title">
+        <p class="dashboard-shell__breadcrumb">
+          ⌂
+          @for (label of menu.path; track $index) {
+            <span>/ {{ label }}</span>
+          }
+        </p>
+        <h1 id="selected-page-title">{{ menu.label }}</h1>
+      </section>
+    } @else {
+      <app-dashboard-home />
+    }
+  </section>
+</main>

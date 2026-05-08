@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.home {
+  display: grid;
+  gap: 12px;
+  min-height: calc(100vh - 108px);
+  align-content: start;
+}
+
+.home__breadcrumb {
+  margin: 0;
+  color: #607a70;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.home h1 {
+  margin: 0;
+  color: #06382b;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1.05;
+}
