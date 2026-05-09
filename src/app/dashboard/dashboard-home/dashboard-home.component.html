@@ -1,4 +1,147 @@
 <section class="home" aria-labelledby="dashboard-home-title">
-  <p class="home__breadcrumb">⌂</p>
   <h1 id="dashboard-home-title">Dashboard</h1>
+
+  @if (summaryCards$ | async; as summaryCards) {
+    <div class="summary-grid" aria-label="Dashboard summary">
+      @for (card of summaryCards; track card.id) {
+        <button
+          class="summary-card"
+          type="button"
+          [style.--summary-accent]="card.accentColor"
+          [style.--summary-icon-bg]="card.iconBackground"
+          [style.--summary-decor]="card.decorativeBackground"
+          [attr.aria-label]="card.label + ': ' + card.value"
+          (click)="onSummaryCardSelected(card)"
+        >
+          <span class="summary-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path [attr.d]="card.icon"></path>
+            </svg>
+          </span>
+          <strong class="summary-card__value">{{ card.value }}</strong>
+          <span class="summary-card__label">{{ card.label }}</span>
+        </button>
+      }
+    </div>
+  }
+
+  @if (overview$ | async; as overview) {
+    <div class="overview">
+      <section class="panel" aria-labelledby="needs-attention-title">
+        <h2 id="needs-attention-title">Needs Attention</h2>
+
+        <div class="attn-list">
+          @for (item of overview.needsAttention; track item.id) {
+            <button
+              class="attn-item"
+              type="button"
+              [style.--panel-accent]="item.accentColor"
+              [style.--panel-icon-bg]="item.iconBackground"
+              (click)="onDashboardTargetSelected(item.target)"
+            >
+              <span class="picon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path [attr.d]="item.icon"></path>
+                </svg>
+              </span>
+              <span>{{ item.label }}</span>
+              <strong>{{ item.value }}</strong>
+            </button>
+          }
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="quick-actions-title">
+        <h2 id="quick-actions-title">Quick Actions</h2>
+
+        <div class="actions">
+          @for (action of overview.quickActions; track action.id) {
+            <button
+              class="action"
+              type="button"
+              [style.--panel-accent]="action.accentColor"
+              [style.--panel-icon-bg]="action.iconBackground"
+              (click)="onDashboardTargetSelected(action.target)"
+            >
+              <span class="picon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path [attr.d]="action.icon"></path>
+                </svg>
+              </span>
+              <span>{{ action.label }}</span>
+            </button>
+          }
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="upcoming-schedule-title">
+        <div class="panel-head">
+          <h2 id="upcoming-schedule-title">Upcoming Schedule</h2>
+          <button class="text-action" type="button" (click)="onDashboardTargetSelected(overview.viewEventsTarget)">
+            View Events
+          </button>
+        </div>
+
+        @if (overview.upcomingSchedule.length) {
+          <div class="list">
+            @for (schedule of overview.upcomingSchedule; track schedule.id) {
+              <span>{{ schedule.label }}</span>
+            }
+          </div>
+        } @else {
+          <div class="empty" aria-live="polite">
+            <span>No upcoming schedule</span>
+          </div>
+        }
+      </section>
+
+      <section class="panel panel--dues" aria-labelledby="monthly-dues-title">
+        <h2 id="monthly-dues-title">Monthly Dues Snapshot</h2>
+
+        <div class="dues">
+          @for (metric of overview.monthlyDuesSnapshot.metrics; track metric.id) {
+            <div
+              class="due"
+              [style.--panel-accent]="metric.accentColor"
+              [style.--panel-icon-bg]="metric.iconBackground"
+            >
+              <span class="picon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path [attr.d]="metric.icon"></path>
+                </svg>
+              </span>
+              <span>{{ metric.label }}</span>
+              <strong>{{ metric.value }}</strong>
+            </div>
+          }
+        </div>
+
+        <div class="prog">
+          <div class="prog-head">
+            <span>Collection Progress</span>
+            <strong>{{ overview.monthlyDuesSnapshot.collectionProgress }}%</strong>
+          </div>
+          <div class="prog-track" aria-hidden="true">
+            <span [style.width.%]="overview.monthlyDuesSnapshot.collectionProgress"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="recent-activity-title">
+        <h2 id="recent-activity-title">Recent Activity</h2>
+
+        @if (overview.recentActivity.length) {
+          <div class="list">
+            @for (activity of overview.recentActivity; track activity.id) {
+              <span>{{ activity.label }}</span>
+            }
+          </div>
+        } @else {
+          <div class="empty" aria-live="polite">
+            <span>No recent activity</span>
+          </div>
+        }
+      </section>
+    </div>
+  }
 </section>

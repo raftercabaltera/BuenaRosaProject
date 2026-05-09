@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, MockUserProfile } from '../../auth/auth.service';
 
 export interface SidebarSelection {
   key: string;
   label: string;
-  path: string[];
+  path: readonly string[];
 }
 
 interface SidebarMenuItem {
@@ -24,6 +24,15 @@ interface SidebarMenuItem {
 })
 export class SidebarComponent {
   @Output() readonly menuSelected = new EventEmitter<SidebarSelection>();
+
+  @Input() set selectedKey(key: string | null) {
+    if (!key) {
+      return;
+    }
+
+    this.activeKey.set(key);
+    this.expandParentMenus(key);
+  }
 
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
@@ -162,6 +171,36 @@ export class SidebarComponent {
 
   private getMenuPath(key: string): string[] {
     return this.findMenuPath(this.menuItems, key) ?? [];
+  }
+
+  private expandParentMenus(key: string): void {
+    const keyPath = this.findMenuKeyPath(this.menuItems, key);
+
+    if (!keyPath?.length) {
+      return;
+    }
+
+    this.expandedKeys.set(new Set(keyPath.slice(0, -1)));
+  }
+
+  private findMenuKeyPath(items: SidebarMenuItem[], key: string, parentPath: string[] = []): string[] | null {
+    for (const item of items) {
+      const currentPath = [...parentPath, item.key];
+
+      if (item.key === key) {
+        return currentPath;
+      }
+
+      if (item.children?.length) {
+        const childPath = this.findMenuKeyPath(item.children, key, currentPath);
+
+        if (childPath) {
+          return childPath;
+        }
+      }
+    }
+
+    return null;
   }
 
   private findMenuPath(items: SidebarMenuItem[], key: string, parentPath: string[] = []): string[] | null {

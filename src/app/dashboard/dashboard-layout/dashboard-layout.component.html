@@ -1,5 +1,5 @@
 <main class="dashboard-shell">
-  <app-sidebar (menuSelected)="onMenuSelected($event)" />
+  <app-sidebar [selectedKey]="selectedSidebarKey()" (menuSelected)="onMenuSelected($event)" />
 
   <section class="dashboard-shell__workspace" aria-label="Dashboard workspace">
     @if (selectedMenu(); as menu) {
@@ -13,7 +13,7 @@
         <h1 id="selected-page-title">{{ menu.label }}</h1>
       </section>
     } @else {
-      <app-dashboard-home />
+      <app-dashboard-home (summaryCardSelected)="onSummaryCardSelected($event)" />
     }
   </section>
 </main>
