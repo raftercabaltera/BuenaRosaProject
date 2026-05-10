@@ -1,8 +1,10 @@
 <section class="section-landing" aria-labelledby="section-landing-title">
   <p class="section-landing__breadcrumb">
-    <span aria-hidden="true">&#8962;</span>
-    @for (label of breadcrumb; track $index) {
-      <span>/ {{ label }}</span>
+    @for (label of breadcrumb; track $index; let isFirst = $first) {
+      @if (!isFirst) {
+        <span aria-hidden="true">/</span>
+      }
+      <span>{{ label }}</span>
     }
   </p>
 

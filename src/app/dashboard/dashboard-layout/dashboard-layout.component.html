@@ -7,7 +7,9 @@
 
   <section class="dashboard-shell__workspace" aria-label="Dashboard workspace">
     @if (selectedMenu(); as menu) {
-      @if (menu.children.length) {
+      @if (menu.key === 'homeowners-list') {
+        <app-homeowners-list [breadcrumb]="menu.path" />
+      } @else if (menu.children.length) {
         <app-section-landing
           [title]="menu.label"
           [breadcrumb]="menu.path"
@@ -17,9 +19,11 @@
       } @else {
         <section class="dashboard-shell__page" aria-labelledby="selected-page-title">
           <p class="dashboard-shell__breadcrumb">
-            <span aria-hidden="true">&#8962;</span>
-            @for (label of menu.path; track $index) {
-              <span>/ {{ label }}</span>
+            @for (label of menu.path; track $index; let isFirst = $first) {
+              @if (!isFirst) {
+                <span aria-hidden="true">/</span>
+              }
+              <span>{{ label }}</span>
             }
           </p>
           <h1 id="selected-page-title">{{ menu.label }}</h1>

@@ -1,0 +1,87 @@
+<div class="homeowner-form__backdrop" (click)="onBackdropClick()">
+  <section
+    class="homeowner-form"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="homeowner-form-title"
+    tabindex="-1"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="homeowner-form-title">Add Homeowner</h2>
+
+    <form [formGroup]="homeownerForm" (ngSubmit)="submit()" novalidate>
+      <label class="homeowner-form__field">
+        <span>Full Name</span>
+        <input type="text" formControlName="fullName" autocomplete="name" />
+        @if (fieldInvalid('fullName')) {
+          <small>Full Name is required.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Block</span>
+        <input type="text" formControlName="block" autocomplete="off" />
+        @if (fieldInvalid('block')) {
+          <small>Block is required.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Lot</span>
+        <input type="text" formControlName="lot" autocomplete="off" />
+        @if (fieldInvalid('lot')) {
+          <small>Lot is required.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Contact Number</span>
+        <input type="tel" formControlName="contactNumber" autocomplete="tel" />
+        @if (fieldInvalid('contactNumber')) {
+          <small>Enter a valid contact number.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Email</span>
+        <input type="email" formControlName="email" autocomplete="email" />
+        @if (fieldInvalid('email')) {
+          <small>Enter a valid email.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Account Status</span>
+        <select formControlName="accountStatus">
+          <option value="">Select status</option>
+          @for (status of accountStatusOptions; track status) {
+            <option [value]="status">{{ formatStatus(status) }}</option>
+          }
+        </select>
+        @if (fieldInvalid('accountStatus')) {
+          <small>Account Status is required.</small>
+        }
+      </label>
+
+      <label class="homeowner-form__field">
+        <span>Resident Type</span>
+        <select formControlName="residentType">
+          <option value="">Select resident type</option>
+          @for (type of residentTypeOptions; track type) {
+            <option [value]="type">{{ formatStatus(type) }}</option>
+          }
+        </select>
+        @if (fieldInvalid('residentType')) {
+          <small>Resident Type is required.</small>
+        }
+      </label>
+
+      <div class="homeowner-form__actions">
+        <button class="homeowner-form__button homeowner-form__button--secondary" type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button class="homeowner-form__button homeowner-form__button--primary" type="submit">Save</button>
+      </div>
+    </form>
+  </section>
+</div>

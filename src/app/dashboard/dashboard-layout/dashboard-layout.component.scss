@@ -46,13 +46,17 @@
 .dashboard-shell__breadcrumb {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 7px;
   margin: 0;
   color: #607a70;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.dashboard-shell__breadcrumb span:last-child {
+  color: #2e5c4d;
 }
 
 .dashboard-shell__page h1 {
