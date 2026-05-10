@@ -17,6 +17,7 @@
           class="sidebar__item sidebar__item--top"
           [class.sidebar__item--active]="isActive(item.key)"
           [class.sidebar__item--expanded]="item.children?.length && isExpanded(item.key)"
+          [class.sidebar__item--logout]="item.action === 'logout'"
           type="button"
           [attr.aria-expanded]="item.children?.length ? isExpanded(item.key) : null"
           (click)="onMenuClick(item)"
@@ -34,6 +35,7 @@
                 class="sidebar__item sidebar__item--child"
                 [class.sidebar__item--active]="isActive(child.key)"
                 [class.sidebar__item--expanded]="child.children?.length && isExpanded(child.key)"
+                [class.sidebar__item--logout]="child.action === 'logout'"
                 type="button"
                 [attr.aria-expanded]="child.children?.length ? isExpanded(child.key) : null"
                 (click)="onMenuClick(child)"
@@ -50,6 +52,7 @@
                     <button
                       class="sidebar__item sidebar__item--grandchild"
                       [class.sidebar__item--active]="isActive(grandchild.key)"
+                      [class.sidebar__item--logout]="grandchild.action === 'logout'"
                       type="button"
                       (click)="onMenuClick(grandchild)"
                     >

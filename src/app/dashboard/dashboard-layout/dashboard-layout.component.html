@@ -1,19 +1,44 @@
 <main class="dashboard-shell">
-  <app-sidebar [selectedKey]="selectedSidebarKey()" (menuSelected)="onMenuSelected($event)" />
+  <app-sidebar
+    [selectedKey]="selectedSidebarKey()"
+    (menuSelected)="onMenuSelected($event)"
+    (logoutRequested)="openLogoutDialog()"
+  />
 
   <section class="dashboard-shell__workspace" aria-label="Dashboard workspace">
     @if (selectedMenu(); as menu) {
-      <section class="dashboard-shell__page" aria-labelledby="selected-page-title">
-        <p class="dashboard-shell__breadcrumb">
-          ⌂
-          @for (label of menu.path; track $index) {
-            <span>/ {{ label }}</span>
-          }
-        </p>
-        <h1 id="selected-page-title">{{ menu.label }}</h1>
-      </section>
+      @if (menu.children.length) {
+        <app-section-landing
+          [title]="menu.label"
+          [breadcrumb]="menu.path"
+          [items]="menu.children"
+          (itemSelected)="onLandingItemSelected($event)"
+        />
+      } @else {
+        <section class="dashboard-shell__page" aria-labelledby="selected-page-title">
+          <p class="dashboard-shell__breadcrumb">
+            <span aria-hidden="true">&#8962;</span>
+            @for (label of menu.path; track $index) {
+              <span>/ {{ label }}</span>
+            }
+          </p>
+          <h1 id="selected-page-title">{{ menu.label }}</h1>
+        </section>
+      }
     } @else {
       <app-dashboard-home (summaryCardSelected)="onSummaryCardSelected($event)" />
     }
   </section>
 </main>
+
+@if (isLogoutDialogOpen()) {
+  <app-confirm-dialog
+    title="Log out?"
+    message="Are you sure you want to log out of your account?"
+    cancelLabel="Cancel"
+    confirmLabel="Log out"
+    confirmButtonTone="danger"
+    (cancelled)="closeLogoutDialog()"
+    (confirmed)="confirmLogout()"
+  />
+}

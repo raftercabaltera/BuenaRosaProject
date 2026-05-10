@@ -1,19 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService, MockUserProfile } from '../../auth/auth.service';
+import { DashboardNavigationItem, DashboardNavigationSelection } from '../models/dashboard-navigation.model';
+import { DashboardNavigationService } from '../services/dashboard-navigation.service';
 
-export interface SidebarSelection {
-  key: string;
-  label: string;
-  path: readonly string[];
-}
-
-interface SidebarMenuItem {
-  key: string;
-  label: string;
-  action?: 'logout';
-  children?: SidebarMenuItem[];
-}
+export type SidebarSelection = DashboardNavigationSelection;
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +14,7 @@ interface SidebarMenuItem {
 })
 export class SidebarComponent {
   @Output() readonly menuSelected = new EventEmitter<SidebarSelection>();
+  @Output() readonly logoutRequested = new EventEmitter<void>();
 
   @Input() set selectedKey(key: string | null) {
     if (!key) {
@@ -34,8 +25,8 @@ export class SidebarComponent {
     this.expandParentMenus(key);
   }
 
-  private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+  private readonly navigationService = inject(DashboardNavigationService);
 
   protected readonly activeKey = signal('dashboard');
   protected readonly expandedKeys = signal<ReadonlySet<string>>(new Set<string>());
@@ -44,102 +35,7 @@ export class SidebarComponent {
     role: 'officer',
     community: 'Buena Rosa 9',
   };
-
-  protected readonly menuItems: SidebarMenuItem[] = [
-    {
-      key: 'dashboard',
-      label: 'Dashboard',
-    },
-    {
-      key: 'management',
-      label: 'Management',
-      children: [
-        {
-          key: 'hoa-profile',
-          label: 'HOA Profile',
-          children: [
-            { key: 'homeowners-list', label: 'Homeowners List' },
-            { key: 'officers-list', label: 'Officers List' },
-            { key: 'user-details', label: 'User Details' },
-          ],
-        },
-        { key: 'house-records', label: 'House Records' },
-        { key: 'document-records', label: 'Document & Records' },
-      ],
-    },
-    {
-      key: 'finance',
-      label: 'Finance',
-      children: [
-        {
-          key: 'monthly-dues',
-          label: 'Monthly Dues',
-          children: [
-            { key: 'payment-records', label: 'Payment Records' },
-            { key: 'billing', label: 'Billing' },
-            { key: 'unpaid-dues', label: 'Unpaid Dues' },
-          ],
-        },
-        {
-          key: 'financial-reports',
-          label: 'Financial Reports',
-          children: [
-            { key: 'collection-summary', label: 'Collection Summary' },
-            { key: 'payment-history', label: 'Payment History' },
-          ],
-        },
-      ],
-    },
-    {
-      key: 'communication',
-      label: 'Communication',
-      children: [
-        {
-          key: 'announcements',
-          label: 'Announcements',
-          children: [
-            { key: 'all-announcements', label: 'All Announcements' },
-            { key: 'create-announcement', label: 'Create Announcement' },
-            { key: 'archived-announcements', label: 'Archived Announcements' },
-          ],
-        },
-        {
-          key: 'events-scheduling',
-          label: 'Events/Scheduling',
-          children: [
-            { key: 'calendar', label: 'Calendar' },
-            { key: 'upcoming-events', label: 'Upcoming Events' },
-            { key: 'past-events', label: 'Past Events' },
-          ],
-        },
-      ],
-    },
-    {
-      key: 'security',
-      label: 'Security',
-      children: [
-        { key: 'visitor-logs', label: 'Visitor Logs' },
-        { key: 'incident-reports', label: 'Incident Reports' },
-      ],
-    },
-    {
-      key: 'system',
-      label: 'System',
-      children: [
-        { key: 'user-management', label: 'User Management' },
-        { key: 'audit-log', label: 'Audit Log' },
-        { key: 'settings', label: 'Settings' },
-      ],
-    },
-    {
-      key: 'account',
-      label: 'Account',
-      children: [
-        { key: 'profile', label: 'Profile' },
-        { key: 'logout', label: 'Log out', action: 'logout' },
-      ],
-    },
-  ];
+  protected readonly menuItems = this.navigationService.getMenuItems();
 
   protected isExpanded(key: string): boolean {
     return this.expandedKeys().has(key);
@@ -149,10 +45,9 @@ export class SidebarComponent {
     return this.activeKey() === key;
   }
 
-  protected onMenuClick(item: SidebarMenuItem): void {
+  protected onMenuClick(item: DashboardNavigationItem): void {
     if (item.action === 'logout') {
-      this.authService.logout();
-      void this.router.navigateByUrl('/login');
+      this.logoutRequested.emit();
       return;
     }
 
@@ -162,65 +57,21 @@ export class SidebarComponent {
       this.toggleExpanded(item.key);
     }
 
-    this.menuSelected.emit({
-      key: item.key,
-      label: item.label,
-      path: this.getMenuPath(item.key),
-    });
-  }
+    const selection = this.navigationService.getSelection(item.key);
 
-  private getMenuPath(key: string): string[] {
-    return this.findMenuPath(this.menuItems, key) ?? [];
+    if (selection) {
+      this.menuSelected.emit(selection);
+    }
   }
 
   private expandParentMenus(key: string): void {
-    const keyPath = this.findMenuKeyPath(this.menuItems, key);
+    const keyPath = this.navigationService.getKeyPath(key);
 
-    if (!keyPath?.length) {
+    if (!keyPath.length) {
       return;
     }
 
     this.expandedKeys.set(new Set(keyPath.slice(0, -1)));
-  }
-
-  private findMenuKeyPath(items: SidebarMenuItem[], key: string, parentPath: string[] = []): string[] | null {
-    for (const item of items) {
-      const currentPath = [...parentPath, item.key];
-
-      if (item.key === key) {
-        return currentPath;
-      }
-
-      if (item.children?.length) {
-        const childPath = this.findMenuKeyPath(item.children, key, currentPath);
-
-        if (childPath) {
-          return childPath;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  private findMenuPath(items: SidebarMenuItem[], key: string, parentPath: string[] = []): string[] | null {
-    for (const item of items) {
-      const currentPath = [...parentPath, item.label];
-
-      if (item.key === key) {
-        return currentPath;
-      }
-
-      if (item.children?.length) {
-        const childPath = this.findMenuPath(item.children, key, currentPath);
-
-        if (childPath) {
-          return childPath;
-        }
-      }
-    }
-
-    return null;
   }
 
   private toggleExpanded(key: string): void {

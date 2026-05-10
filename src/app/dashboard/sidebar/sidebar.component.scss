@@ -144,6 +144,13 @@
   box-shadow: 0 12px 24px rgba(23, 104, 75, 0.24);
 }
 
+.sidebar__item--logout:hover,
+.sidebar__item--logout:focus-visible {
+  background: #c93535;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(201, 53, 53, 0.22);
+}
+
 .sidebar__chevron {
   display: inline-grid;
   width: 20px;

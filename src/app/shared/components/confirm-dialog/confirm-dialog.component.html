@@ -1,0 +1,33 @@
+<div class="confirm-dialog__backdrop" (click)="onBackdropClick()">
+  <section
+    class="confirm-dialog"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="titleId"
+    [attr.aria-describedby]="messageId"
+    tabindex="-1"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="confirm-dialog__title" [id]="titleId">{{ title }}</h2>
+    <p class="confirm-dialog__message" [id]="messageId">{{ message }}</p>
+
+    <div class="confirm-dialog__actions">
+      <button
+        #cancelButton
+        class="confirm-dialog__button confirm-dialog__button--secondary"
+        type="button"
+        (click)="cancel()"
+      >
+        {{ cancelLabel }}
+      </button>
+      <button
+        class="confirm-dialog__button confirm-dialog__button--primary"
+        [class.confirm-dialog__button--danger]="confirmButtonTone === 'danger'"
+        type="button"
+        (click)="confirm()"
+      >
+        {{ confirmLabel }}
+      </button>
+    </div>
+  </section>
+</div>

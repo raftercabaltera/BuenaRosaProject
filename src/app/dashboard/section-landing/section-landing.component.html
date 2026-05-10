@@ -1,0 +1,34 @@
+<section class="section-landing" aria-labelledby="section-landing-title">
+  <p class="section-landing__breadcrumb">
+    <span aria-hidden="true">&#8962;</span>
+    @for (label of breadcrumb; track $index) {
+      <span>/ {{ label }}</span>
+    }
+  </p>
+
+  <h1 id="section-landing-title">{{ title }}</h1>
+
+  <div
+    class="section-landing__grid"
+    [class.section-landing__grid--single]="items.length === 1"
+    [class.section-landing__grid--pair]="items.length === 2"
+    aria-label="Section navigation"
+  >
+    @for (item of items; track item.key) {
+      <button
+        class="section-landing__tile"
+        [class.section-landing__tile--logout]="item.action === 'logout'"
+        type="button"
+        (click)="selectItem(item)"
+      >
+        <span class="section-landing__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path [attr.d]="item.icon"></path>
+          </svg>
+        </span>
+        <span class="section-landing__tile-title">{{ item.label }}</span>
+        <span class="section-landing__cue" aria-hidden="true">&#8250;</span>
+      </button>
+    }
+  </div>
+</section>
