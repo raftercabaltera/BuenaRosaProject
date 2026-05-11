@@ -1,0 +1,124 @@
+<section class="officers-page" aria-labelledby="officers-title">
+  <header class="officers-page__header">
+    <div>
+      <p class="officers-page__breadcrumb">
+        @for (label of breadcrumb; track $index; let isFirst = $first) {
+          @if (!isFirst) {
+            <span aria-hidden="true">/</span>
+          }
+          <span>{{ label }}</span>
+        }
+      </p>
+      <h1 id="officers-title">Officers List</h1>
+    </div>
+
+    <button class="officers-page__add-button" type="button" (click)="openAddOfficer()">
+      <span aria-hidden="true">+</span>
+      Add Officer
+    </button>
+  </header>
+
+  <section class="officers-page__filters" aria-label="Officer filters">
+    <label class="officers-page__search">
+      <span class="officers-page__field-label">Search</span>
+      <input
+        type="search"
+        placeholder="Search officer..."
+        autocomplete="off"
+        [value]="searchTerm()"
+        (input)="updateSearchTerm($event)"
+      />
+    </label>
+
+    <label class="officers-page__field">
+      <span class="officers-page__field-label">Position</span>
+      <select [value]="selectedPosition()" (change)="updatePosition($event)">
+        <option value="">All Positions</option>
+        @for (position of positionOptions; track position.value) {
+          <option [value]="position.value">{{ position.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="officers-page__field">
+      <span class="officers-page__field-label">Account Status</span>
+      <select [value]="selectedAccountStatus()" (change)="updateAccountStatus($event)">
+        <option value="">All</option>
+        @for (status of accountStatusOptions; track status) {
+          <option [value]="status">{{ formatStatus(status) }}</option>
+        }
+      </select>
+    </label>
+
+    <button class="officers-page__clear-button" type="button" (click)="clearFilters()">Clear</button>
+  </section>
+
+  <section class="officers-page__table-card" aria-label="Officers table">
+    <div class="officers-page__table-scroll">
+      @let displayedOfficerRows = displayedOfficers();
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Officer Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Phase / Block / Lot</th>
+            <th scope="col">Contact</th>
+            <th scope="col">Account Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (displayedOfficerRows.length) {
+            @for (officer of displayedOfficerRows; track officer.id) {
+              <tr>
+                <td>{{ officer.fullName }}</td>
+                <td>{{ formatPosition(officer.position) }}</td>
+                <td>{{ formatPhase(officer.phase) }} / Block {{ officer.block }} / Lot {{ officer.lot }}</td>
+                <td>
+                  <span class="officers-page__contact">
+                    <span>{{ officer.contactNumber }}</span>
+                    @if (officer.email) {
+                      <span>{{ officer.email }}</span>
+                    }
+                  </span>
+                </td>
+                <td>
+                  <span class="officers-page__status">{{ formatAccountStatus(officer) }}</span>
+                </td>
+                <td>
+                  <div class="officers-page__actions" aria-label="Officer actions">
+                    <button type="button">View</button>
+                    <button type="button">Edit</button>
+                    <button class="officers-page__action-danger" type="button">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          } @else {
+            <tr class="officers-page__empty-row">
+              <td colspan="6">
+                <div class="officers-page__empty-state">
+                  <span>No officers found</span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">{{ footerText() }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+</section>
+
+@if (isAddOfficerOpen()) {
+  <app-officer-form
+    [residents]="residents()"
+    [officers]="officers()"
+    (cancelled)="closeAddOfficer()"
+    (submitted)="createOfficer($event)"
+  />
+}

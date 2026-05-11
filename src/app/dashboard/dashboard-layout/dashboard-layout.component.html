@@ -9,6 +9,8 @@
     @if (selectedMenu(); as menu) {
       @if (menu.key === 'residents-list') {
         <app-residents-list [breadcrumb]="menu.path" />
+      } @else if (menu.key === 'officers-list') {
+        <app-officers-list [breadcrumb]="menu.path" />
       } @else if (menu.children.length) {
         <app-section-landing
           [title]="menu.label"

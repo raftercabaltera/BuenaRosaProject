@@ -2,30 +2,30 @@
   display: block;
 }
 
-.residents-page {
+.officers-page {
   display: grid;
   gap: 22px;
   min-height: calc(100vh - 108px);
   align-content: start;
 }
 
-.residents-page__header {
+.officers-page__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
 }
 
-.residents-page h1 {
+.officers-page h1 {
   margin: 0;
   color: #07382b;
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.05;
 }
 
-.residents-page__add-button,
-.residents-page__clear-button,
-.residents-page__actions button {
+.officers-page__add-button,
+.officers-page__clear-button,
+.officers-page__actions button {
   border: 0;
   border-radius: 12px;
   cursor: pointer;
@@ -37,7 +37,7 @@
     transform 160ms ease;
 }
 
-.residents-page__add-button {
+.officers-page__add-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -49,14 +49,14 @@
   box-shadow: 0 14px 28px rgba(32, 119, 88, 0.2);
 }
 
-.residents-page__add-button:hover,
-.residents-page__add-button:focus-visible {
+.officers-page__add-button:hover,
+.officers-page__add-button:focus-visible {
   background: #17684b;
   transform: translateY(-1px);
 }
 
-.residents-page__filters,
-.residents-page__table-card {
+.officers-page__filters,
+.officers-page__table-card {
   border: 1px solid rgba(31, 122, 82, 0.13);
   border-radius: 20px;
   background:
@@ -65,27 +65,27 @@
   box-shadow: 0 16px 34px rgba(44, 83, 61, 0.1);
 }
 
-.residents-page__filters {
+.officers-page__filters {
   display: grid;
-  grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(140px, 0.72fr)) auto;
+  grid-template-columns: minmax(240px, 1.4fr) repeat(2, minmax(170px, 0.8fr)) auto;
   gap: 16px;
   align-items: end;
   padding: 20px;
 }
 
-.residents-page__search,
-.residents-page__field {
+.officers-page__search,
+.officers-page__field {
   display: grid;
   gap: 8px;
 }
 
-.residents-page__field-label {
+.officers-page__field-label {
   color: #2e5c4d;
   font-weight: 800;
 }
 
-.residents-page input,
-.residents-page select {
+.officers-page input,
+.officers-page select {
   width: 100%;
   min-height: 44px;
   border: 1px solid rgba(31, 122, 82, 0.16);
@@ -96,53 +96,53 @@
   font-weight: 700;
 }
 
-.residents-page input {
+.officers-page input {
   padding: 0 14px;
 }
 
-.residents-page select {
+.officers-page select {
   padding: 0 36px 0 14px;
 }
 
-.residents-page input:focus,
-.residents-page select:focus,
-.residents-page button:focus-visible {
+.officers-page input:focus,
+.officers-page select:focus,
+.officers-page button:focus-visible {
   outline: 3px solid rgba(32, 119, 88, 0.18);
   outline-offset: 2px;
 }
 
-.residents-page__clear-button {
+.officers-page__clear-button {
   min-height: 44px;
   padding: 0 16px;
   color: #173f34;
   background: #eef5f1;
 }
 
-.residents-page__clear-button:hover,
-.residents-page__clear-button:focus-visible {
+.officers-page__clear-button:hover,
+.officers-page__clear-button:focus-visible {
   background: #e1ece6;
   transform: translateY(-1px);
 }
 
-.residents-page__table-card {
+.officers-page__table-card {
   overflow-x: auto;
 }
 
-.residents-page table {
+.officers-page table {
   width: 100%;
   min-width: 1040px;
   border-collapse: collapse;
 }
 
-.residents-page th,
-.residents-page td {
+.officers-page th,
+.officers-page td {
   padding: 18px 20px;
   border-bottom: 1px solid rgba(31, 122, 82, 0.1);
   color: #123f33;
   text-align: left;
 }
 
-.residents-page th {
+.officers-page th {
   color: #174c3e;
   background: rgba(238, 245, 241, 0.62);
   font-size: 0.74rem;
@@ -150,12 +150,12 @@
   text-transform: uppercase;
 }
 
-.residents-page__contact {
+.officers-page__contact {
   display: grid;
   gap: 4px;
 }
 
-.residents-page__status {
+.officers-page__status {
   display: inline-flex;
   min-height: 30px;
   align-items: center;
@@ -167,13 +167,13 @@
   font-weight: 800;
 }
 
-.residents-page__actions {
+.officers-page__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.residents-page__actions button {
+.officers-page__actions button {
   min-height: 34px;
   padding: 0 12px;
   border: 1px solid rgba(31, 122, 82, 0.14);
@@ -181,29 +181,29 @@
   background: #ffffff;
 }
 
-.residents-page__actions button:hover,
-.residents-page__actions button:focus-visible {
+.officers-page__actions button:hover,
+.officers-page__actions button:focus-visible {
   border-color: rgba(31, 122, 82, 0.28);
   background: rgba(31, 122, 82, 0.08);
 }
 
-.residents-page__actions .residents-page__action-danger {
+.officers-page__actions .officers-page__action-danger {
   border-color: rgba(201, 53, 53, 0.16);
   color: #b92828;
 }
 
-.residents-page__actions .residents-page__action-danger:hover,
-.residents-page__actions .residents-page__action-danger:focus-visible {
+.officers-page__actions .officers-page__action-danger:hover,
+.officers-page__actions .officers-page__action-danger:focus-visible {
   border-color: rgba(201, 53, 53, 0.32);
   background: rgba(201, 53, 53, 0.08);
 }
 
-.residents-page__empty-row td {
+.officers-page__empty-row td {
   padding: 0;
   text-align: center;
 }
 
-.residents-page tfoot td {
+.officers-page tfoot td {
   padding: 16px 20px;
   color: #607a70;
   background: rgba(248, 252, 249, 0.84);
@@ -211,7 +211,7 @@
   font-weight: 800;
 }
 
-.residents-page__empty-state {
+.officers-page__empty-state {
   display: grid;
   min-height: 210px;
   place-items: center;
@@ -219,33 +219,33 @@
   font-weight: 800;
 }
 
-@media (max-width: 1280px) {
-  .residents-page__filters {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+@media (max-width: 1040px) {
+  .officers-page__filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 760px) {
-  .residents-page {
+@media (max-width: 680px) {
+  .officers-page {
     gap: 18px;
     min-height: auto;
   }
 
-  .residents-page__header {
+  .officers-page__header {
     display: grid;
   }
 
-  .residents-page__add-button {
+  .officers-page__add-button {
     width: 100%;
   }
 
-  .residents-page__filters {
+  .officers-page__filters {
     grid-template-columns: 1fr;
     padding: 16px;
     border-radius: 16px;
   }
 
-  .residents-page__table-card {
+  .officers-page__table-card {
     border-radius: 14px;
   }
 }

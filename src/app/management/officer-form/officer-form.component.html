@@ -1,0 +1,84 @@
+<div class="officer-form__backdrop" (click)="onBackdropClick()">
+  <section
+    class="officer-form"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="officer-form-title"
+    tabindex="-1"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 id="officer-form-title">Add Officer</h2>
+
+    <form [formGroup]="officerForm" (ngSubmit)="submit()" novalidate>
+      <label class="officer-form__field officer-form__field--wide">
+        <span>Select Resident</span>
+        <select formControlName="residentId">
+          @if (residents.length) {
+            <option value="">Select resident</option>
+            @for (resident of residents; track resident.id) {
+              <option [value]="resident.id">{{ resident.fullName }}</option>
+            }
+          } @else {
+            <option value="">No residents available</option>
+          }
+        </select>
+        @if (fieldInvalid('residentId')) {
+          <small>Resident is required.</small>
+        }
+        @if (residentAssignmentError()) {
+          <small>{{ residentAssignmentError() }}</small>
+        }
+      </label>
+
+      @if (selectedResident(); as resident) {
+        <div class="officer-form__summary">
+          <span>Resident Name</span>
+          <strong>{{ resident.fullName }}</strong>
+          <span>Phase / Block / Lot</span>
+          <strong>{{ formatPhase(resident.phase) }} / Block {{ resident.block }} / Lot {{ resident.lot }}</strong>
+          <span>Contact</span>
+          <strong>{{ resident.contactNumber }}</strong>
+        </div>
+      }
+
+      <label class="officer-form__field">
+        <span>Position</span>
+        <select formControlName="position">
+          <option value="">Select position</option>
+          @for (position of positionOptions; track position.value) {
+            <option [value]="position.value">{{ position.label }}</option>
+          }
+        </select>
+        @if (fieldInvalid('position')) {
+          <small>Position is required.</small>
+        }
+        @if (positionLimitError()) {
+          <small>{{ positionLimitError() }}</small>
+        }
+      </label>
+
+      <label class="officer-form__field">
+        <span>Term Start</span>
+        <input type="date" formControlName="termStart" />
+        @if (termStartRequiredForTermEndInvalid()) {
+          <small>Term start is required when term end is provided</small>
+        }
+      </label>
+
+      <label class="officer-form__field">
+        <span>Term End</span>
+        <input type="date" formControlName="termEnd" />
+        @if (termRangeInvalid()) {
+          <small>Term end cannot be earlier than term start</small>
+        }
+      </label>
+
+      <div class="officer-form__actions">
+        <button class="officer-form__button officer-form__button--secondary" type="button" (click)="cancel()">
+          Cancel
+        </button>
+        <button class="officer-form__button officer-form__button--primary" type="submit">Save</button>
+      </div>
+    </form>
+  </section>
+</div>
