@@ -7,8 +7,8 @@
 
   <section class="dashboard-shell__workspace" aria-label="Dashboard workspace">
     @if (selectedMenu(); as menu) {
-      @if (menu.key === 'homeowners-list') {
-        <app-homeowners-list [breadcrumb]="menu.path" />
+      @if (menu.key === 'residents-list') {
+        <app-residents-list [breadcrumb]="menu.path" />
       } @else if (menu.children.length) {
         <app-section-landing
           [title]="menu.label"

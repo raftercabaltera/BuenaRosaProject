@@ -1,0 +1,141 @@
+<section class="residents-page" aria-labelledby="residents-title">
+  <header class="residents-page__header">
+    <div>
+      <p class="residents-page__breadcrumb">
+        @for (label of breadcrumb; track $index; let isFirst = $first) {
+          @if (!isFirst) {
+            <span aria-hidden="true">/</span>
+          }
+          <span>{{ label }}</span>
+        }
+      </p>
+      <h1 id="residents-title">Residents List</h1>
+    </div>
+
+    <button class="residents-page__add-button" type="button" (click)="openAddResident()">
+      <span aria-hidden="true">+</span>
+      Add Resident
+    </button>
+  </header>
+
+  <section class="residents-page__filters" aria-label="Resident filters">
+    <label class="residents-page__search">
+      <span class="residents-page__field-label">Search</span>
+      <input
+        type="search"
+        placeholder="Search resident..."
+        autocomplete="off"
+        [value]="searchTerm()"
+        (input)="updateSearchTerm($event)"
+      />
+    </label>
+
+    <label class="residents-page__field">
+      <span class="residents-page__field-label">Phase</span>
+      <select [value]="selectedPhase()" (change)="updatePhase($event)">
+        <option value="">All Phases</option>
+        @for (phase of phaseOptions; track phase) {
+          <option [value]="phase">{{ formatPhase(phase) }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="residents-page__field">
+      <span class="residents-page__field-label">Block</span>
+      <select [value]="selectedBlock()" (change)="updateBlock($event)">
+        <option value="">All Blocks</option>
+        @for (block of blockOptions(); track block) {
+          <option [value]="block">{{ block }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="residents-page__field">
+      <span class="residents-page__field-label">Account Status</span>
+      <select [value]="selectedAccountStatus()" (change)="updateAccountStatus($event)">
+        <option value="">All</option>
+        @for (status of accountStatusOptions; track status) {
+          <option [value]="status">{{ formatStatus(status) }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="residents-page__field">
+      <span class="residents-page__field-label">Resident Type</span>
+      <select [value]="selectedResidentType()" (change)="updateResidentType($event)">
+        <option value="">All</option>
+        @for (type of residentTypeOptions; track type) {
+          <option [value]="type">{{ formatStatus(type) }}</option>
+        }
+      </select>
+    </label>
+
+    <button class="residents-page__clear-button" type="button" (click)="clearFilters()">Clear</button>
+  </section>
+
+  <section class="residents-page__table-card" aria-label="Residents table">
+    <div class="residents-page__table-scroll">
+      @let residents = displayedResidents();
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Resident Name</th>
+            <th scope="col">Phase / Block / Lot</th>
+            <th scope="col">Contact</th>
+            <th scope="col">Account Status</th>
+            <th scope="col">Resident Type</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (residents.length) {
+            @for (resident of residents; track resident.id) {
+              <tr>
+                <td>{{ resident.fullName }}</td>
+                <td>{{ formatPhase(resident.phase) }} / Block {{ resident.block }} / Lot {{ resident.lot }}</td>
+                <td>
+                  <span class="residents-page__contact">
+                    <span>{{ resident.contactNumber }}</span>
+                    @if (resident.email) {
+                      <span>{{ resident.email }}</span>
+                    }
+                  </span>
+                </td>
+                <td>
+                  <span class="residents-page__status">{{ formatAccountStatus(resident) }}</span>
+                </td>
+                <td>
+                  <span class="residents-page__status">{{ formatResidentType(resident) }}</span>
+                </td>
+                <td>
+                  <div class="residents-page__actions" aria-label="Resident actions">
+                    <button type="button">View</button>
+                    <button type="button">Edit</button>
+                    <button class="residents-page__action-danger" type="button">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          } @else {
+            <tr class="residents-page__empty-row">
+              <td colspan="6">
+                <div class="residents-page__empty-state">
+                  <span>No residents found</span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">{{ footerText() }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+</section>
+
+@if (isAddResidentOpen()) {
+  <app-resident-form (cancelled)="closeAddResident()" (submitted)="createResident($event)" />
+}

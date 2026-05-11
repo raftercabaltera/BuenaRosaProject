@@ -72,15 +72,15 @@ const DASHBOARD_OVERVIEW: DashboardOverview = {
   ],
   quickActions: [
     {
-      id: 'add-homeowner',
-      label: 'Add Homeowner',
+      id: 'add-resident',
+      label: 'Add Resident',
       accentColor: '#1f7a52',
       iconBackground: 'rgba(31, 122, 82, 0.13)',
       icon: 'M15 19a6 6 0 0 0-12 0M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM18 8v8M14 12h8',
       target: {
-        key: 'homeowners-list',
-        label: 'Homeowners List',
-        path: ['Management', 'HOA Profile', 'Homeowners List'],
+        key: 'residents-list',
+        label: 'Residents List',
+        path: ['Management', 'HOA Profile', 'Residents List'],
       },
     },
     {

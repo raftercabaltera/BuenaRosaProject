@@ -2,21 +2,21 @@
   display: block;
 }
 
-.homeowners-page {
+.residents-page {
   display: grid;
   gap: 22px;
   min-height: calc(100vh - 108px);
   align-content: start;
 }
 
-.homeowners-page__header {
+.residents-page__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
 }
 
-.homeowners-page__breadcrumb {
+.residents-page__breadcrumb {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
@@ -26,20 +26,20 @@
   text-transform: uppercase;
 }
 
-.homeowners-page__breadcrumb span:last-child {
+.residents-page__breadcrumb span:last-child {
   color: #2e5c4d;
 }
 
-.homeowners-page h1 {
+.residents-page h1 {
   margin: 0;
   color: #07382b;
   font-size: clamp(2rem, 3vw, 2.8rem);
   line-height: 1.05;
 }
 
-.homeowners-page__add-button,
-.homeowners-page__clear-button,
-.homeowners-page__actions button {
+.residents-page__add-button,
+.residents-page__clear-button,
+.residents-page__actions button {
   border: 0;
   border-radius: 12px;
   cursor: pointer;
@@ -51,7 +51,7 @@
     transform 160ms ease;
 }
 
-.homeowners-page__add-button {
+.residents-page__add-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -63,14 +63,14 @@
   box-shadow: 0 14px 28px rgba(32, 119, 88, 0.2);
 }
 
-.homeowners-page__add-button:hover,
-.homeowners-page__add-button:focus-visible {
+.residents-page__add-button:hover,
+.residents-page__add-button:focus-visible {
   background: #17684b;
   transform: translateY(-1px);
 }
 
-.homeowners-page__filters,
-.homeowners-page__table-card {
+.residents-page__filters,
+.residents-page__table-card {
   border: 1px solid rgba(31, 122, 82, 0.13);
   border-radius: 20px;
   background:
@@ -79,27 +79,27 @@
   box-shadow: 0 16px 34px rgba(44, 83, 61, 0.1);
 }
 
-.homeowners-page__filters {
+.residents-page__filters {
   display: grid;
-  grid-template-columns: minmax(240px, 1.4fr) repeat(3, minmax(160px, 0.7fr)) auto;
+  grid-template-columns: minmax(220px, 1.4fr) repeat(4, minmax(140px, 0.72fr)) auto;
   gap: 16px;
   align-items: end;
   padding: 20px;
 }
 
-.homeowners-page__search,
-.homeowners-page__field {
+.residents-page__search,
+.residents-page__field {
   display: grid;
   gap: 8px;
 }
 
-.homeowners-page__field-label {
+.residents-page__field-label {
   color: #2e5c4d;
   font-weight: 800;
 }
 
-.homeowners-page input,
-.homeowners-page select {
+.residents-page input,
+.residents-page select {
   width: 100%;
   min-height: 44px;
   border: 1px solid rgba(31, 122, 82, 0.16);
@@ -110,53 +110,53 @@
   font-weight: 700;
 }
 
-.homeowners-page input {
+.residents-page input {
   padding: 0 14px;
 }
 
-.homeowners-page select {
+.residents-page select {
   padding: 0 36px 0 14px;
 }
 
-.homeowners-page input:focus,
-.homeowners-page select:focus,
-.homeowners-page button:focus-visible {
+.residents-page input:focus,
+.residents-page select:focus,
+.residents-page button:focus-visible {
   outline: 3px solid rgba(32, 119, 88, 0.18);
   outline-offset: 2px;
 }
 
-.homeowners-page__clear-button {
+.residents-page__clear-button {
   min-height: 44px;
   padding: 0 16px;
   color: #173f34;
   background: #eef5f1;
 }
 
-.homeowners-page__clear-button:hover,
-.homeowners-page__clear-button:focus-visible {
+.residents-page__clear-button:hover,
+.residents-page__clear-button:focus-visible {
   background: #e1ece6;
   transform: translateY(-1px);
 }
 
-.homeowners-page__table-card {
+.residents-page__table-card {
   overflow-x: auto;
 }
 
-.homeowners-page table {
+.residents-page table {
   width: 100%;
-  min-width: 980px;
+  min-width: 1040px;
   border-collapse: collapse;
 }
 
-.homeowners-page th,
-.homeowners-page td {
+.residents-page th,
+.residents-page td {
   padding: 18px 20px;
   border-bottom: 1px solid rgba(31, 122, 82, 0.1);
   color: #123f33;
   text-align: left;
 }
 
-.homeowners-page th {
+.residents-page th {
   color: #174c3e;
   background: rgba(238, 245, 241, 0.62);
   font-size: 0.74rem;
@@ -164,7 +164,12 @@
   text-transform: uppercase;
 }
 
-.homeowners-page__status {
+.residents-page__contact {
+  display: grid;
+  gap: 4px;
+}
+
+.residents-page__status {
   display: inline-flex;
   min-height: 30px;
   align-items: center;
@@ -176,13 +181,13 @@
   font-weight: 800;
 }
 
-.homeowners-page__actions {
+.residents-page__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.homeowners-page__actions button {
+.residents-page__actions button {
   min-height: 34px;
   padding: 0 12px;
   border: 1px solid rgba(31, 122, 82, 0.14);
@@ -190,29 +195,29 @@
   background: #ffffff;
 }
 
-.homeowners-page__actions button:hover,
-.homeowners-page__actions button:focus-visible {
+.residents-page__actions button:hover,
+.residents-page__actions button:focus-visible {
   border-color: rgba(31, 122, 82, 0.28);
   background: rgba(31, 122, 82, 0.08);
 }
 
-.homeowners-page__actions .homeowners-page__action-danger {
+.residents-page__actions .residents-page__action-danger {
   border-color: rgba(201, 53, 53, 0.16);
   color: #b92828;
 }
 
-.homeowners-page__actions .homeowners-page__action-danger:hover,
-.homeowners-page__actions .homeowners-page__action-danger:focus-visible {
+.residents-page__actions .residents-page__action-danger:hover,
+.residents-page__actions .residents-page__action-danger:focus-visible {
   border-color: rgba(201, 53, 53, 0.32);
   background: rgba(201, 53, 53, 0.08);
 }
 
-.homeowners-page__empty-row td {
+.residents-page__empty-row td {
   padding: 0;
   text-align: center;
 }
 
-.homeowners-page tfoot td {
+.residents-page tfoot td {
   padding: 16px 20px;
   color: #607a70;
   background: rgba(248, 252, 249, 0.84);
@@ -220,7 +225,7 @@
   font-weight: 800;
 }
 
-.homeowners-page__empty-state {
+.residents-page__empty-state {
   display: grid;
   min-height: 210px;
   place-items: center;
@@ -228,33 +233,33 @@
   font-weight: 800;
 }
 
-@media (max-width: 1100px) {
-  .homeowners-page__filters {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+@media (max-width: 1280px) {
+  .residents-page__filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 680px) {
-  .homeowners-page {
+@media (max-width: 760px) {
+  .residents-page {
     gap: 18px;
     min-height: auto;
   }
 
-  .homeowners-page__header {
+  .residents-page__header {
     display: grid;
   }
 
-  .homeowners-page__add-button {
+  .residents-page__add-button {
     width: 100%;
   }
 
-  .homeowners-page__filters {
+  .residents-page__filters {
     grid-template-columns: 1fr;
     padding: 16px;
     border-radius: 16px;
   }
 
-  .homeowners-page__table-card {
+  .residents-page__table-card {
     border-radius: 14px;
   }
 }

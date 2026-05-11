@@ -4,17 +4,17 @@ import { DashboardSummaryCard } from '../models/dashboard-summary-card.model';
 
 const DASHBOARD_SUMMARY_CARDS: readonly DashboardSummaryCard[] = [
   {
-    id: 'homeowners',
-    label: 'Homeowners',
+    id: 'residents',
+    label: 'Residents',
     value: 0,
     accentColor: '#1f7a52',
     iconBackground: 'rgba(31, 122, 82, 0.13)',
     decorativeBackground: 'rgba(31, 122, 82, 0.1)',
     icon: 'M3 10.75 12 4l9 6.75M5.5 9.75V20h13V9.75M9 20v-4.25a3 3 0 0 1 6 0V20',
     target: {
-      key: 'homeowners-list',
-      label: 'Homeowners List',
-      path: ['Management', 'HOA Profile', 'Homeowners List'],
+      key: 'residents-list',
+      label: 'Residents List',
+      path: ['Management', 'HOA Profile', 'Residents List'],
     },
   },
   {

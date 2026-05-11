@@ -33,7 +33,7 @@ const DASHBOARD_NAVIGATION_ITEMS: readonly DashboardNavigationItem[] = [
         label: 'HOA Profile',
         icon: ICONS.profile,
         children: [
-          { key: 'homeowners-list', label: 'Homeowners List', icon: ICONS.homes },
+          { key: 'residents-list', label: 'Residents List', icon: ICONS.homes },
           { key: 'officers-list', label: 'Officers List', icon: ICONS.profile },
         ],
       },

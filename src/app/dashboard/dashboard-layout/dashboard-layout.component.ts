@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { HomeownersListComponent } from '../../management/homeowners-list/homeowners-list.component';
+import { ResidentsListComponent } from '../../management/residents-list/residents-list.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DashboardHomeComponent } from '../dashboard-home/dashboard-home.component';
 import { DashboardNavigationItem, DashboardNavigationSelection } from '../models/dashboard-navigation.model';
@@ -18,7 +18,7 @@ import { SidebarComponent, SidebarSelection } from '../sidebar/sidebar.component
     DashboardHomeComponent,
     SectionLandingComponent,
     ConfirmDialogComponent,
-    HomeownersListComponent,
+    ResidentsListComponent,
   ],
   templateUrl: './dashboard-layout.component.html',
   styleUrl: './dashboard-layout.component.scss',
